@@ -39,6 +39,54 @@
             overflow-x: hidden;
         }
 
+        /* Prevent scrolling while preloader is active */
+        body.no-scroll {
+            overflow: hidden;
+            height: 100vh;
+        }
+
+        /* --- PRELOADER STYLES (NEW) --- */
+        .preloader-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: var(--dark-bg);
+            z-index: 9999;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            transition: transform 0.8s cubic-bezier(0.76, 0, 0.24, 1);
+        }
+
+        .preloader-container.hide-loader {
+            transform: translateY(-100%);
+        }
+
+        .counter-wrapper {
+            position: relative;
+            overflow: hidden;
+        }
+
+        .counter-digit {
+            font-size: 15vw; /* Responsive massive text */
+            font-weight: 800;
+            color: var(--primary-lime);
+            line-height: 1;
+            display: inline-block;
+        }
+
+        .loading-text {
+            color: var(--white);
+            font-size: 1rem;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+            margin-top: 10px;
+            opacity: 0.7;
+        }
+
         /* --- Header / Navigation --- */
         header {
             display: flex;
@@ -146,6 +194,10 @@
             letter-spacing: -1px;
             margin-bottom: 40px;
             animation: slideInLeft 0.8s ease-out;
+            /* Delay animation until preloader finishes */
+            animation-delay: 1.8s;
+            opacity: 0;
+            animation-fill-mode: forwards;
         }
 
         .social-proof {
@@ -153,7 +205,7 @@
             align-items: center;
             gap: 20px;
             margin-bottom: 40px;
-            animation: fadeIn 1s ease 0.3s backwards;
+            animation: fadeIn 1s ease 2s backwards; /* Adjusted delay */
         }
 
         .stat-number {
@@ -214,7 +266,7 @@
             padding: 25px;
             position: relative;
             box-shadow: 0 10px 30px rgba(0,0,0,0.05);
-            animation: fadeInUp 1s ease 0.5s backwards;
+            animation: fadeInUp 1s ease 2.2s backwards; /* Adjusted delay */
         }
 
         .glass-card h3 {
@@ -252,7 +304,7 @@
             margin-bottom: 20px;
             z-index: 5;
             position: relative;
-            animation: fadeIn 1s ease 0.4s backwards;
+            animation: fadeIn 1s ease 2s backwards; /* Adjusted delay */
         }
 
         .specs-header {
@@ -401,7 +453,7 @@
             width: 100%;
             height: auto;
             filter: drop-shadow(0 20px 30px rgba(0,0,0,0.3));
-            animation: fadeInRight 1s ease-out 0.2s backwards;
+            animation: fadeInRight 1s ease-out 2s backwards; /* Adjusted delay */
         }
 
         /* Green Background Shape */
@@ -482,9 +534,7 @@
             .bg-shape { height: 60%; }
         }
 
-        /* --- NEW ADDITIONAL STYLES --- */
-        
-        /* Scroll Animation Utility Classes */
+        /* --- Scroll Animation Utility Classes --- */
         .reveal {
             opacity: 0;
             transform: translateY(50px);
@@ -908,10 +958,20 @@
             .g-1, .g-2, .g-3, .g-4 { grid-column: auto; grid-row: auto; height: 250px; }
             .footer-content { grid-template-columns: 1fr; }
             .video-banner { height: 40vh; }
+            .counter-digit { font-size: 20vw; }
         }
     </style>
 </head>
-<body>
+<body class="no-scroll">
+
+    <!-- NUMBER COUNT PRELOADER -->
+    <div class="preloader-container" id="preloader">
+        <div class="counter-wrapper">
+            <span class="counter-digit">0</span>
+            <span class="counter-digit" style="font-size: 4vw; vertical-align: top;">%</span>
+        </div>
+        <div class="loading-text">Loading Experience</div>
+    </div>
 
     <!-- Header -->
     <header>
@@ -1043,7 +1103,7 @@
 
         </section>
 
-        <!-- MODERN EXPLORE MODELS SECTION (Replaced old placeholder) -->
+        <!-- MODERN EXPLORE MODELS SECTION -->
         <section class="models-section reveal">
             <div class="section-header">
                 <h2>Explore Our Fleet</h2>
@@ -1238,6 +1298,38 @@
     </footer>
 
     <script>
+        // --- PRELOADER LOGIC ---
+        function startLoader() {
+            let counterElement = document.querySelector(".counter-digit");
+            let currentValue = 0;
+
+            function updateCounter() {
+                if (currentValue === 100) {
+                    // Loader Finished
+                    setTimeout(() => {
+                        document.getElementById("preloader").classList.add("hide-loader");
+                        document.body.classList.remove("no-scroll");
+                    }, 500);
+                    return;
+                }
+
+                currentValue += Math.floor(Math.random() * 10) + 1;
+                if (currentValue > 100) currentValue = 100;
+
+                counterElement.textContent = currentValue;
+
+                // Random delay to simulate real network traffic
+                let delay = Math.floor(Math.random() * 200) + 50;
+                setTimeout(updateCounter, delay);
+            }
+
+            updateCounter();
+        }
+
+        // Initialize loader when page loads
+        window.addEventListener('load', startLoader);
+
+
         // Data for the specs tabs
         const specsData = {
             frameset: {
