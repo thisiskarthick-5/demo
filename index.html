@@ -12,6 +12,7 @@
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
 
     <style>
+        /* --- ORIGINAL STYLES --- */
         :root {
             --primary-lime: #D4F23E; /* The neon green color */
             --dark-bg: #121212;
@@ -426,12 +427,6 @@
             pointer-events: none;
         }
 
-        /* --- Footer Section (Simple) --- */
-        .section-padding {
-            padding: 80px 40px;
-            text-align: center;
-        }
-
         /* Animation Keyframes */
         @keyframes slideInLeft {
             from { opacity: 0; transform: translateX(-50px); }
@@ -485,6 +480,434 @@
             h1 { font-size: 2.5rem; }
             .specs-panel { width: 100%; }
             .bg-shape { height: 60%; }
+        }
+
+        /* --- NEW ADDITIONAL STYLES --- */
+        
+        /* Scroll Animation Utility Classes */
+        .reveal {
+            opacity: 0;
+            transform: translateY(50px);
+            transition: all 0.8s ease-out;
+        }
+        
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* --- UPDATED EXPLORE MODELS SECTION STYLES --- */
+        .models-section {
+            padding: 100px 40px;
+            background-color: #f9f9f9;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 60px;
+        }
+
+        .section-header h2 {
+            font-size: 3rem;
+            margin-bottom: 25px;
+        }
+
+        .filter-btns {
+            display: inline-flex;
+            background: #e0e0e0;
+            padding: 5px;
+            border-radius: var(--radius-pill);
+            gap: 5px;
+        }
+
+        .filter-btn {
+            padding: 10px 25px;
+            border-radius: var(--radius-pill);
+            border: none;
+            background: transparent;
+            cursor: pointer;
+            font-weight: 600;
+            transition: 0.3s;
+            color: var(--text-grey);
+        }
+
+        .filter-btn:hover { color: var(--text-black); }
+
+        .filter-btn.active {
+            background: var(--white);
+            color: var(--text-black);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+        }
+
+        .models-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .model-card {
+            background: var(--white);
+            border-radius: 30px;
+            padding: 20px;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            position: relative;
+            border: 1px solid transparent;
+            cursor: pointer;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .model-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+            border-color: var(--primary-lime);
+        }
+
+        .card-image-wrapper {
+            background: #f4f4f4;
+            border-radius: 20px;
+            height: 250px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            margin-bottom: 20px;
+            overflow: hidden;
+        }
+
+        .model-img {
+            width: 90%;
+            height: auto;
+            object-fit: contain;
+            transition: 0.4s;
+            filter: drop-shadow(0 10px 20px rgba(0,0,0,0.1));
+            mix-blend-mode: multiply; /* Helps blend whitespace in images */
+        }
+
+        .model-card:hover .model-img {
+            transform: scale(1.1) rotate(-3deg);
+        }
+
+        .badge {
+            position: absolute;
+            top: 15px;
+            left: 15px;
+            background: var(--white);
+            padding: 6px 14px;
+            border-radius: var(--radius-pill);
+            font-size: 0.75rem;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+        }
+
+        .wishlist-btn {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            width: 35px;
+            height: 35px;
+            border-radius: 50%;
+            background: var(--white);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border: none;
+            cursor: pointer;
+            transition: 0.2s;
+            z-index: 2;
+        }
+
+        .wishlist-btn:hover { background: #fee; color: #ff4757; }
+
+        .model-content { padding: 0 10px; flex-grow: 1; display: flex; flex-direction: column;}
+
+        .model-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+            margin-bottom: 10px;
+        }
+
+        .model-title { font-size: 1.4rem; font-weight: 700; line-height: 1.2; }
+        .model-price { font-size: 1.1rem; font-weight: 600; color: var(--text-grey); }
+
+        .model-specs {
+            display: flex;
+            gap: 15px;
+            margin-bottom: 25px;
+        }
+
+        .spec-item {
+            display: flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 0.8rem;
+            color: var(--text-grey);
+            background: #f9f9f9;
+            padding: 8px 12px;
+            border-radius: 8px;
+            font-weight: 600;
+        }
+
+        .spec-item i { color: #aaa; }
+
+        .buy-btn {
+            width: 100%;
+            padding: 12px 12px 12px 25px;
+            background: var(--dark-bg);
+            color: var(--white);
+            border: none;
+            border-radius: var(--radius-pill);
+            font-weight: 600;
+            transition: 0.3s;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-top: auto;
+            cursor: pointer;
+        }
+
+        .buy-btn span { font-size: 0.9rem; }
+        .btn-icon-circle {
+            width: 35px;
+            height: 35px;
+            background: var(--primary-lime);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--dark-bg);
+            transition: 0.3s;
+        }
+
+        .model-card:hover .buy-btn {
+            background: var(--primary-lime);
+            color: var(--dark-bg);
+        }
+
+        .model-card:hover .btn-icon-circle {
+            background: var(--white);
+            transform: translateX(5px);
+        }
+
+        /* --- Features Section - Dark Mode --- */
+        .features-section {
+            background-color: var(--dark-bg);
+            color: var(--white);
+            padding: 100px 40px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .features-header {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 60px;
+        }
+
+        .features-header h2 {
+            font-size: 3rem;
+            margin-bottom: 20px;
+        }
+
+        .features-header span {
+            color: var(--primary-lime);
+            text-transform: uppercase;
+            letter-spacing: 2px;
+            font-weight: 700;
+            font-size: 0.9rem;
+        }
+
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .feature-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 40px;
+            border-radius: var(--radius-lg);
+            transition: 0.3s;
+        }
+
+        .feature-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            border-color: var(--primary-lime);
+            transform: translateY(-10px);
+        }
+
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--primary-lime);
+            margin-bottom: 25px;
+        }
+
+        .feature-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 15px;
+        }
+
+        .feature-card p {
+            color: #aaa;
+            line-height: 1.6;
+        }
+
+        /* Video / Parallax Section */
+        .video-banner {
+            height: 60vh;
+            width: 100%;
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background: url('https://images.unsplash.com/photo-1517649763962-0c623066013b?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center/cover;
+            background-attachment: fixed; /* Parallax effect */
+        }
+
+        .video-overlay {
+            position: absolute;
+            top: 0; left: 0; right: 0; bottom: 0;
+            background: rgba(0,0,0,0.4);
+        }
+
+        .video-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+            color: var(--white);
+        }
+
+        .play-btn {
+            width: 80px;
+            height: 80px;
+            background: var(--primary-lime);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 30px;
+            cursor: pointer;
+            transition: 0.3s;
+            animation: pulse 2s infinite;
+        }
+
+        .play-btn:hover { transform: scale(1.1); }
+        .play-btn i { font-size: 1.5rem; color: var(--dark-bg); margin-left: 5px; }
+
+        @keyframes pulse {
+            0% { box-shadow: 0 0 0 0 rgba(212, 242, 62, 0.7); }
+            70% { box-shadow: 0 0 0 20px rgba(212, 242, 62, 0); }
+            100% { box-shadow: 0 0 0 0 rgba(212, 242, 62, 0); }
+        }
+
+        /* Gallery Section */
+        .gallery-section {
+            padding: 100px 40px;
+            background: #fff;
+        }
+
+        .gallery-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            grid-template-rows: repeat(2, 250px);
+            gap: 15px;
+            max-width: 1200px;
+            margin: 40px auto 0;
+        }
+
+        .gallery-item {
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            cursor: pointer;
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s ease;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.1);
+        }
+
+        .g-1 { grid-column: 1 / 3; grid-row: 1 / 3; }
+        .g-2 { grid-column: 3 / 4; grid-row: 1 / 2; }
+        .g-3 { grid-column: 4 / 5; grid-row: 1 / 2; }
+        .g-4 { grid-column: 3 / 5; grid-row: 2 / 3; }
+
+        /* Footer */
+        .site-footer {
+            background-color: var(--dark-bg);
+            color: var(--white);
+            padding: 80px 40px 30px;
+            border-top: 1px solid #333;
+        }
+
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1.5fr 1fr 1fr 1.5fr;
+            gap: 40px;
+            margin-bottom: 60px;
+        }
+
+        .footer-brand h4 { font-size: 2rem; color: var(--primary-lime); margin-bottom: 20px; }
+        .footer-brand p { color: #888; line-height: 1.6; max-width: 300px; }
+
+        .footer-links h5 { color: var(--white); margin-bottom: 20px; font-size: 1.1rem; }
+        .footer-links ul { list-style: none; }
+        .footer-links li { margin-bottom: 12px; }
+        .footer-links a { color: #888; text-decoration: none; transition: 0.2s; }
+        .footer-links a:hover { color: var(--primary-lime); }
+
+        .newsletter input {
+            width: 100%;
+            padding: 15px;
+            border-radius: var(--radius-pill);
+            border: none;
+            background: #222;
+            color: white;
+            margin-bottom: 10px;
+            outline: none;
+        }
+        
+        .newsletter button {
+            width: 100%;
+            padding: 15px;
+            border-radius: var(--radius-pill);
+            border: none;
+            background: var(--primary-lime);
+            font-weight: 700;
+            cursor: pointer;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 30px;
+            border-top: 1px solid #222;
+            color: #555;
+            font-size: 0.9rem;
+        }
+
+        /* Mobile adjustments for new sections */
+        @media (max-width: 768px) {
+            .features-grid { grid-template-columns: 1fr; }
+            .gallery-grid { grid-template-columns: 1fr; grid-template-rows: auto; }
+            .g-1, .g-2, .g-3, .g-4 { grid-column: auto; grid-row: auto; height: 250px; }
+            .footer-content { grid-template-columns: 1fr; }
+            .video-banner { height: 40vh; }
         }
     </style>
 </head>
@@ -610,7 +1033,7 @@
             <div class="bike-container">
                 <!-- Using a generic transparent e-bike image for visual accuracy -->
                 <img src="https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/items/bicycle.png" style="display:none;" alt="preload"> 
-                <!-- Actual bike placeholder since I cannot generate a perfect transparent png of the specific bike in the UI, I'm using a high quality bike image and using CSS to blend or positioned strategically. Ideally this is a transparent PNG. -->
+                <!-- Actual bike placeholder -->
                 <img src="https://www.pngall.com/wp-content/uploads/5/Mountain-Bike-PNG-Image.png" class="bike-img" alt="Electric Bike">
             </div>
 
@@ -620,16 +1043,199 @@
 
         </section>
 
-        <!-- Placeholder for scrollable "Full Website" feel -->
-        <section class="section-padding" style="background: white;">
-            <h2>Explore Our Models</h2>
-            <div style="display: flex; gap: 20px; justify-content: center; margin-top: 30px; flex-wrap: wrap;">
-                <div style="background: #f4f4f4; width: 300px; height: 300px; border-radius: 20px;"></div>
-                <div style="background: #f4f4f4; width: 300px; height: 300px; border-radius: 20px;"></div>
-                <div style="background: #f4f4f4; width: 300px; height: 300px; border-radius: 20px;"></div>
+        <!-- MODERN EXPLORE MODELS SECTION (Replaced old placeholder) -->
+        <section class="models-section reveal">
+            <div class="section-header">
+                <h2>Explore Our Fleet</h2>
+                <div class="filter-btns">
+                    <button class="filter-btn active">All Models</button>
+                    <button class="filter-btn">Urban City</button>
+                    <button class="filter-btn">Off-Road</button>
+                    <button class="filter-btn">Sport</button>
+                </div>
+            </div>
+        
+            <div class="models-grid">
+                
+                <!-- Model 1 -->
+                <div class="model-card">
+                    <div class="card-image-wrapper">
+                        <span class="badge">New Arrival</span>
+                        <button class="wishlist-btn"><i class="fa-regular fa-heart"></i></button>
+                        <img src="https://www.pngall.com/wp-content/uploads/5/Mountain-Bike-PNG-Image.png" class="model-img" alt="Haul City S1">
+                    </div>
+                    <div class="model-content">
+                        <div class="model-header">
+                            <h3 class="model-title">Haul City S1</h3>
+                            <span class="model-price">$1,299</span>
+                        </div>
+                        <div class="model-specs">
+                            <div class="spec-item"><i class="fa-solid fa-bolt"></i> 45mi</div>
+                            <div class="spec-item"><i class="fa-solid fa-weight-hanging"></i> 14kg</div>
+                        </div>
+                        <button class="buy-btn">
+                            <span>View Specs</span>
+                            <div class="btn-icon-circle"><i class="fa-solid fa-arrow-right"></i></div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Model 2 -->
+                <div class="model-card">
+                    <div class="card-image-wrapper">
+                        <span class="badge" style="background: var(--dark-bg); color: var(--primary-lime);">Best Seller</span>
+                        <button class="wishlist-btn"><i class="fa-regular fa-heart"></i></button>
+                        <img src="https://www.pngall.com/wp-content/uploads/5/Cycling-Mountain-Bike-PNG-File.png" class="model-img" alt="Haul X-Trail">
+                    </div>
+                    <div class="model-content">
+                        <div class="model-header">
+                            <h3 class="model-title">Haul X-Trail</h3>
+                            <span class="model-price">$2,499</span>
+                        </div>
+                        <div class="model-specs">
+                            <div class="spec-item"><i class="fa-solid fa-bolt"></i> 80mi</div>
+                            <div class="spec-item"><i class="fa-solid fa-mountain"></i> A.W.D</div>
+                        </div>
+                        <button class="buy-btn">
+                            <span>View Specs</span>
+                            <div class="btn-icon-circle"><i class="fa-solid fa-arrow-right"></i></div>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Model 3 -->
+                <div class="model-card">
+                    <div class="card-image-wrapper">
+                        <button class="wishlist-btn"><i class="fa-regular fa-heart"></i></button>
+                        <img src="https://www.pngall.com/wp-content/uploads/5/Mountain-Bike-Transparent.png" class="model-img" alt="Haul Pro Racer">
+                    </div>
+                    <div class="model-content">
+                        <div class="model-header">
+                            <h3 class="model-title">Haul Pro Racer</h3>
+                            <span class="model-price">$3,150</span>
+                        </div>
+                        <div class="model-specs">
+                            <div class="spec-item"><i class="fa-solid fa-wind"></i> Aero</div>
+                            <div class="spec-item"><i class="fa-solid fa-weight-hanging"></i> 8kg</div>
+                        </div>
+                        <button class="buy-btn">
+                            <span>View Specs</span>
+                            <div class="btn-icon-circle"><i class="fa-solid fa-arrow-right"></i></div>
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </section>
+        
+        <!-- Features Section -->
+        <section class="features-section">
+            <div class="features-header reveal">
+                <span>Why Choose Haul</span>
+                <h2>Engineered for the Unstoppable</h2>
+                <p style="color: #aaa;">We combine aerospace-grade materials with cutting-edge electric propulsion to create a ride that feels like flying.</p>
+            </div>
+
+            <div class="features-grid">
+                <div class="feature-card reveal">
+                    <div class="feature-icon"><i class="fa-solid fa-bolt"></i></div>
+                    <h3>Instant Torque</h3>
+                    <p>0 to 30mph in under 4 seconds. Our proprietary motor delivers power exactly when you need it, seamlessly.</p>
+                </div>
+                <div class="feature-card reveal" style="transition-delay: 0.2s">
+                    <div class="feature-icon"><i class="fa-solid fa-feather"></i></div>
+                    <h3>Ultra-Lightweight</h3>
+                    <p>Carbon fiber frameset weighing in at just 1.2kg. Stronger than steel, lighter than aluminum.</p>
+                </div>
+                <div class="feature-card reveal" style="transition-delay: 0.4s">
+                    <div class="feature-icon"><i class="fa-solid fa-battery-full"></i></div>
+                    <h3>100 Mile Range</h3>
+                    <p>Go further with our Smart-Cell battery technology. Regenerative braking extends your journey.</p>
+                </div>
+            </div>
+        </section>
+
+        <!-- Video / Parallax Banner -->
+        <section class="video-banner">
+            <div class="video-overlay"></div>
+            <div class="video-content reveal">
+                <div class="play-btn">
+                    <i class="fa-solid fa-play"></i>
+                </div>
+                <h2 style="font-size: 3rem; margin-bottom: 10px;">Ride Beyond Limits</h2>
+                <p>Watch the 2026 Campaign Film</p>
+            </div>
+        </section>
+
+        <!-- Gallery Section -->
+        <section class="gallery-section">
+            <div style="text-align: center; margin-bottom: 40px;" class="reveal">
+                <h2 style="font-size: 2.5rem; margin-bottom: 10px;">Life on Wheels</h2>
+                <p style="color: #666;">Join the community of riders reshaping their cities.</p>
+            </div>
+
+            <div class="gallery-grid reveal">
+                <div class="gallery-item g-1">
+                    <img src="https://images.unsplash.com/photo-1558981806-ec527fa84c3d?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Rider">
+                </div>
+                <div class="gallery-item g-2">
+                    <img src="https://images.unsplash.com/photo-1593764592116-bfb2a97c642a?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Detail">
+                </div>
+                <div class="gallery-item g-3">
+                    <img src="https://images.unsplash.com/photo-1565108053644-32549a4561a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Urban">
+                </div>
+                <div class="gallery-item g-4">
+                    <img src="https://images.unsplash.com/photo-1474962558142-9ca83af74bb7?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Sunset">
+                </div>
             </div>
         </section>
     </main>
+
+    <!-- Footer -->
+    <footer class="site-footer">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="logo" style="margin-bottom: 20px;">
+                    <i class="fa-solid fa-bicycle"></i>
+                </div>
+                <h4>HAUL.</h4>
+                <p>Redefining urban mobility one ride at a time. Designed in California, ridden worldwide.</p>
+            </div>
+            
+            <div class="footer-links">
+                <h5>Shop</h5>
+                <ul>
+                    <li><a href="#">E-Bikes</a></li>
+                    <li><a href="#">Road Bikes</a></li>
+                    <li><a href="#">Accessories</a></li>
+                    <li><a href="#">Parts</a></li>
+                </ul>
+            </div>
+
+            <div class="footer-links">
+                <h5>Company</h5>
+                <ul>
+                    <li><a href="#">About Us</a></li>
+                    <li><a href="#">Sustainability</a></li>
+                    <li><a href="#">Careers</a></li>
+                    <li><a href="#">Contact</a></li>
+                </ul>
+            </div>
+
+            <div class="newsletter">
+                <h5>Stay in the loop</h5>
+                <p style="color: #888; font-size: 0.9rem; margin-bottom: 15px;">Get the latest news and special offers.</p>
+                <form>
+                    <input type="email" placeholder="Enter your email">
+                    <button type="button">Subscribe</button>
+                </form>
+            </div>
+        </div>
+
+        <div class="footer-bottom">
+            <p>&copy; 2026 Haul Bikes Inc. All rights reserved.</p>
+        </div>
+    </footer>
 
     <script>
         // Data for the specs tabs
@@ -682,6 +1288,35 @@
                 contentArea.style.transition = 'all 0.3s ease';
             }, 200);
         }
+
+        // --- NEW ANIMATION SCRIPT ---
+        // Simple Scroll Observer to trigger animations
+        const observerOptions = {
+            root: null,
+            rootMargin: '0px',
+            threshold: 0.1
+        };
+
+        const observer = new IntersectionObserver((entries, observer) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    entry.target.classList.add('active');
+                    observer.unobserve(entry.target); // Only animate once
+                }
+            });
+        }, observerOptions);
+
+        document.querySelectorAll('.reveal').forEach(section => {
+            observer.observe(section);
+        });
+        
+        // Simple functionality for filter buttons (visual only for now)
+        document.querySelectorAll('.filter-btn').forEach(btn => {
+            btn.addEventListener('click', function() {
+                document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+                this.classList.add('active');
+            });
+        });
     </script>
 </body>
 </html>
